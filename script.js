@@ -24,3 +24,19 @@ document.addEventListener('keydown', (event) => {
 mobile.addEventListener('change', syncMenu);
 syncMenu();
 document.querySelector('#year').textContent = String(new Date().getFullYear());
+
+const themeToggle = document.querySelector('.theme-toggle');
+const themeLabel = document.querySelector('.theme-label');
+function applyTheme(theme) {
+  const dark = theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  themeToggle.setAttribute('aria-pressed', String(dark));
+  themeLabel.textContent = dark ? '화이트모드' : '다크모드';
+}
+applyTheme(document.documentElement.dataset.theme);
+themeToggle.hidden = false;
+themeToggle.addEventListener('click', () => {
+  const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  applyTheme(theme);
+  try { localStorage.setItem('navy-theme', theme); } catch { /* Storage may be unavailable. */ }
+});
