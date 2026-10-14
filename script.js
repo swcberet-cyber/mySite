@@ -1,7 +1,7 @@
 'use strict';
 const toggle = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('#navigation');
-const mobile = window.matchMedia('(max-width: 760px)');
+const mobile = window.matchMedia('(max-width: 900px)');
 function setMenu(open) {
   toggle.setAttribute('aria-expanded', String(open));
   toggle.innerHTML = open ? '메뉴 닫기 <span aria-hidden="true">×</span>' : '메뉴 열기 <span aria-hidden="true">☰</span>';
