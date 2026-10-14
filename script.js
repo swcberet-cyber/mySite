@@ -1,26 +1,24 @@
 'use strict';
-const toggle = document.querySelector('.menu-toggle');
-const navigation = document.querySelector('#navigation');
-const mobile = window.matchMedia('(max-width: 760px)');
-function setMenu(open) {
-  toggle.setAttribute('aria-expanded', String(open));
-  toggle.innerHTML = open ? '메뉴 닫기 <span aria-hidden="true">×</span>' : '메뉴 열기 <span aria-hidden="true">☰</span>';
-  navigation.classList.toggle('is-collapsed', mobile.matches && !open);
-}
-function syncMenu() {
-  toggle.hidden = !mobile.matches;
-  setMenu(false);
-}
-toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
-navigation.addEventListener('click', (event) => {
-  if (event.target.closest('a') && mobile.matches) setMenu(false);
-});
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && mobile.matches && toggle.getAttribute('aria-expanded') === 'true') {
-    setMenu(false);
-    toggle.focus();
+const form = document.querySelector('#welcome-form');
+const nameInput = document.querySelector('#name');
+const error = document.querySelector('#name-error');
+const greeting = document.querySelector('#greeting');
+const greetingText = document.querySelector('#greeting-text');
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const name = nameInput.value.trim();
+  if (!name) {
+    error.hidden = false;
+    nameInput.setAttribute('aria-invalid', 'true');
+    nameInput.focus();
+    return;
   }
+  error.hidden = true;
+  nameInput.removeAttribute('aria-invalid');
+  greetingText.textContent = `${name} 님 어서오세요`;
+  greeting.classList.add('is-ready');
 });
-mobile.addEventListener('change', syncMenu);
-syncMenu();
-document.querySelector('#year').textContent = String(new Date().getFullYear());
+nameInput.addEventListener('input', () => {
+  error.hidden = true;
+  nameInput.removeAttribute('aria-invalid');
+});
